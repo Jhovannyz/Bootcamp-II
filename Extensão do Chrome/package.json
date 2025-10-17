@@ -1,5 +1,5 @@
 {
-  "name": "my-chrome-extension",
+  "name": "Extensão do Chrome",
   "version": "1.2.0",
   "type": "module",
   "scripts": {
