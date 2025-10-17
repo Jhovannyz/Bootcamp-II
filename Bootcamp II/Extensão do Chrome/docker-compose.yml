@@ -1,0 +1,18 @@
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bootcamp/ext-e2e:latest
+    environment:
+      - CI=true
+    # O volume é ótimo para dev, mas para um teste puro de CI pode ser removido.
+    # Vamos manter para flexibilidade local.
+    volumes:
+      - ./:/app
+      # Monta um volume para os relatórios para fácil acesso local
+      - ./playwright-report:/app/playwright-report
+    working_dir: /app
+    # Comando simplificado que usa o script principal de teste
+    command: npm test
+    shm_size: 2gb # Evita falhas do Chromium por falta de shared memory

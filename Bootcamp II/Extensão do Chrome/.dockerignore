@@ -1,0 +1,13 @@
+# Ignora tudo por padrão para começar do zero
+**
+
+# Libera arquivos essenciais
+!/package.json
+!/package-lock.json
+!/manifest.json
+!/src
+!/icon
+!/scripts
+!/tests
+!/playwright.config.ts
+!/Dockerfile
