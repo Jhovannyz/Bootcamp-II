@@ -14,6 +14,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Listar arquivos e pastas
+        run: ls -R
+        
       - name: Instalar deps
         run: npm ci
       - name: Instalar Playwright
