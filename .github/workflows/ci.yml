@@ -9,27 +9,62 @@ on:
 jobs:
   test-build:
     runs-on: ubuntu-latest
+    
+    # Define o diretório de trabalho padrão
+    # para todos os comandos 'run:' deste job.
+    defaults:
+      run:
+        working-directory: 'Extensão do Chrome'
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Instalar deps
+
+      - name: Cache de dependências do Node
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          # O caminho para o package-lock.json também precisa estar correto
+          key: ${{ runner.os }}-node-${{ hashFiles('Extensão do Chrome/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Este comando agora roda dentro de 'Extensão do Chrome'
+      - name: Instalar dependências
         run: npm ci
+
+      # Este também
       - name: Instalar Playwright
         run: npx playwright install --with-deps chromium
+
+      # Este também
       - name: Build extensão
         run: npm run build
+
+      # Este também
       - name: Testes E2E
-        run: npm run test:e2e || npm run test:e2e -- --reporter=html
+        # Comando de teste simplificado
+        run: npm run test:e2e
+
+      # Passos de 'uses' não usam o 'defaults', 
+      # então precisamos colocar o caminho completo no 'path:'
       - name: Publicar relatório do Playwright
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report
+          # Caminho corrigido para o relatório
+          path: Extensão do Chrome/playwright-report/
+
       - name: Publicar pacote da extensão
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: extension-zip
-          path: dist/extension.zip
+          # Caminho corrigido para o .zip
+          path: Extensão do Chrome/dist/extension.zip
