@@ -1,16 +1,18 @@
-# Usa a imagem oficial do Playwright que já contém as dependências [cite: 1]
+# Usa a imagem oficial do Playwright que já contém as dependências
 FROM mcr.microsoft.com/playwright:v1.56.0-jammy
 
+# Define o diretório de trabalho
 WORKDIR /app
+
+# Copia apenas os arquivos de dependência e instala (maximiza o cache)
 COPY package*.json ./
 RUN npm ci --silent
 
-# Garante que o navegador e suas dependências estão instalados
-RUN npx playwright install --with-deps chromium
-
+# Copia o restante dos arquivos da aplicação (respeitando o .dockerignore)
 COPY . .
-# Build da extensão (gera dist/ e dist/extension.zip) 
+
+# Build da extensão (gera dist/ e dist/extension.zip)
 RUN npm run build
 
-# Comando padrão otimizado para rodar apenas os testes E2E
-CMD ["npm", "run", "test:e2e"]
+# Comando padrão para rodar a suíte de testes completa (build + e2e)
+CMD ["npm", "test"]
