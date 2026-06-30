@@ -9,14 +9,6 @@ Uma extensão leve e eficiente para o Google Chrome, desenvolvida com a moderna 
 
 ---
 
-## 🚀 Demonstração
-
-> **Nota:** Substitua o link abaixo por um GIF ou imagem da sua extensão funcionando!
-> 
-> ![Demonstração da Extensão](https://via.placeholder.com/600x300?text=Coloque+um+GIF+da+extensao+aqui)
-
----
-
 ## ✨ Funcionalidades
 
 * **Toggle Rápido:** Ative ou desative o modo escuro na aba ativa com um único clique no popup.
